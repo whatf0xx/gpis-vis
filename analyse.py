@@ -37,7 +37,11 @@ pop_trend = Polynomial.fit(zero_years, log_pop, deg=1).convert()
 
 fig, ax = plt.subplots()
 pop["Population (mio.)"].plot(ax=ax, logy=True, color="green", linestyle="dotted")
-ax.plot(years, np.exp(pop_trend(zero_years)))
+ax.plot(years, np.exp(pop_trend(zero_years)), label="Population trend")
+ax.set_title("Historic trends in English population")
+ax.set_ylabel("English population (mio.)")
+ax.set_xlabel("Year")
+ax.legend()
 
 detrended_pop = pop["Population (mio.)"] / np.exp(pop_trend(zero_years))
 
@@ -76,6 +80,11 @@ axs[1].plot(df.index, smooth_craft, color="green")
 axs[1].plot(df.index, smooth_farm, color="orange")
 axs[1].plot(years, detrended_pop, color="gray", label="Detrended population")
     
+ymin, ymax = axs[1].get_ylim()
+axs[1].vlines(1348, ymin, ymax, linestyle="dotted", label="Black Death arrives in England (1348)")
+axs[1].vlines(1361, ymin, ymax, linestyle="dotted", label="Black Death outbreak (1361)")
+axs[1].vlines(1369, ymin, ymax, linestyle="dotted", label="Black Death outbreak(1369)")
+
 axs[1].legend()
 fig.suptitle("Historical wages and prices in England")
 plt.show()
